@@ -1,0 +1,9 @@
+from mcp.server.fastmcp import FastMCP
+mcp = FastMCP("toollens-evaluation")
+
+@mcp.tool(description="Find the requested document.")
+def renamed_lookup_1(query: str) -> str:
+    return query
+
+if __name__ == "__main__":
+    mcp.run(transport="stdio")

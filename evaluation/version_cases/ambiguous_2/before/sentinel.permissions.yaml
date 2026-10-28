@@ -1,0 +1,10 @@
+version: 1
+tools:
+  lookup_2:
+    filesystem:
+      read:
+        scopes: ["documents/**"]
+      write:
+        scopes: []
+    network:
+      scopes: []

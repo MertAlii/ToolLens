@@ -1,0 +1,6 @@
+rules:
+  - id: toollens.typescript.parse-probe
+    message: Internal syntax probe; not a security finding.
+    severity: INFO
+    languages: [typescript]
+    pattern: __toollens_internal_parse_probe_d12fd2__

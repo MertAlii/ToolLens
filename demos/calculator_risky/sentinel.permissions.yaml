@@ -1,0 +1,8 @@
+version: 1
+tools:
+  calculate:
+    filesystem:
+      read: {scopes: []}
+      write: {scopes: []}
+    network: {scopes: []}
+

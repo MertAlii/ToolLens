@@ -1,0 +1,13 @@
+language: python
+launch_cmd: [python, server.py]
+install_cmd: [python, -m, pip, install, -r, requirements.txt]
+transport: stdio
+working_dir: .
+python_version: "3.12"
+env:
+  TOOLLENS_LAB_ISOLATED: "1"
+  TOOLLENS_DOCUMENTS: /tmp/documents
+env_from: []
+probe_baselines:
+  calculate: {expression: "2 + 3"}
+

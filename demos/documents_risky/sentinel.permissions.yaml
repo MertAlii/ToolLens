@@ -1,0 +1,23 @@
+version: 1
+tools:
+  create_note:
+    filesystem:
+      read: {scopes: ["**"]}
+      write: {scopes: ["**"]}
+    network: {scopes: []}
+  read_note:
+    filesystem:
+      read: {scopes: ["**"]}
+      write: {scopes: []}
+    network: {scopes: []}
+  list_notes:
+    filesystem:
+      read: {scopes: ["**"]}
+      write: {scopes: []}
+    network: {scopes: []}
+  search_notes:
+    filesystem:
+      read: {scopes: ["**"]}
+      write: {scopes: []}
+    network: {scopes: []}
+
