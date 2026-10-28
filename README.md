@@ -1,124 +1,225 @@
-# ToolLens
+<p align="center">
+  <img src="docs/assets/toollens-logo.png" alt="ToolLens logosu" width="120" />
+</p>
 
-Yapay zekâ araçları için yerel güvenlik inceleme uygulaması.
+<h1 align="center">ToolLens</h1>
 
-## Aç ve kullan
+<p align="center">
+  <b>Yapay zekâ araçlarını incele. Riski kanıtıyla gör. Sonucu anlaşılır biçimde değerlendir.</b>
+</p>
 
-Bu bilgisayarda uygulama **http://127.0.0.1:8001** adresinde çalışır. Daha sonra yeniden başlatmak için bu klasörde PowerShell açıp `./start.ps1` çalıştırın. Durdurmak için aynı terminalde Ctrl+C kullanın.
+<p align="center">
+  MCP araçları için yerel güvenlik incelemesi, AI açıklamaları ve karşılaştırmalı raporlama.
+</p>
 
-Uygulamanın ana sayfa, çalışma alanı ve ayarlar bölümleri vardır:
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.12" />
+  <img src="https://img.shields.io/badge/React-TypeScript-149ECA?style=for-the-badge&logo=react&logoColor=white" alt="React ve TypeScript" />
+  <img src="https://img.shields.io/badge/Backend-195_test-059669?style=for-the-badge" alt="195 backend testi geçti" />
+  <img src="https://img.shields.io/badge/Frontend-33_test-059669?style=for-the-badge" alt="33 frontend testi geçti" />
+</p>
 
-- **Ana sayfa:** ToolLens’in ne yaptığını ve nasıl kullanılacağını açıklar.
-- **Ayarlar:** Algılanan CLI bağlantılarını, gerçek model listesini, iptal edilebilir yanıt testini ve Docker kurulum yardımını sunar.
-- **Çalışma alanı:** Proje seçme, kod inceleme, kaynak kanıtı, erişim karşılaştırması, gerçek MCP araçlarını deneme ve önce/sonra karşılaştırmasını bir arada sunar.
+<p align="center">
+  <a href="#-hızlı-kurulum">Kurulum</a> ·
+  <a href="#-ekran-görüntüleri">Ekran görüntüleri</a> ·
+  <a href="#-nasıl-kullanılır">Kullanım</a> ·
+  <a href="#-testler-ve-doğrulama">Testler</a> ·
+  <a href="THIRD_PARTY_NOTICES.md">Kaynak ve lisanslar</a>
+</p>
 
-İlk kullanımda **Ayarlar → bağlantı ve model seç → Modeli test et → Bu bağlantıyı kullan** yolunu izleyin. Ardından **Bir örnekle dene → Riskli sürüm / Hesaplama aracı → Kontrolü başlat** ile AI destekli incelemeyi başlatın. Çıkan kaydı açıp “Neden önemli?”, “Ne yapılabilir?” ve “Dayandığı kodu gör” bölümlerini inceleyin. Sonuçlar gerçek analiz motorundan gelir.
+<p align="center">
+  <img src="docs/assets/home.png" alt="ToolLens Dark tema ana sayfası" width="100%" />
+</p>
 
-## Gerçek araçlarla deneme
+## 🔎 ToolLens nedir?
 
-Çalışma alanında **Gerçek araçları dene** bölümünü açın. Düzeltilmiş hesaplayıcıyı başlatıp bir aritmetik ifade gönderin. Not ve dosya yönetimi aracında kendi notunuzu `.txt` dosyası olarak kaydedip yeniden okuyabilirsiniz. Yanıtlar arka plandaki MCP sunucusundan gelir; önceden hazırlanmış sonuç gösterilmez. İşiniz bitince **Aracı durdur** düğmesine basın.
+**ToolLens**, yapay zekâ uygulamalarına işlem yapma yeteneği veren MCP araçlarını incelemek için geliştirilmiş, tarayıcıdan kullanılan yerel bir uygulamadır. Kaynak kodu bulunan projeler ile yalnız HTTP MCP adresi bulunan sunucuların inceleme kapsamını ayırır. Bulguyu ilgili kaynağa bağlar; seçilen AI bağlantısıyla açıklama ve düzeltme önerisi almayı sağlar.
 
-Riskli ve düzeltilmiş dört örneğin kaynakları `demos/` içindedir. Riskli sunucular yalnız Docker laboratuvarında çalışır; Docker yokken kod incelemesi kullanılabilir. Laboratuvar yanıtı tek başına bütün dosya ve ağ işlemlerinin izlendiği anlamına gelmez.
+- **📁 Üç farklı kaynak:** GitHub deposu, bilgisayardaki klasör veya HTTP MCP adresiyle proje oluşturma.
+- **🧭 Bağlantı sihirbazı:** Gerçek MCP oturumu, araç listesi, protokol sürümü ve açıklamalı bağlantı hataları.
+- **🛡️ Kaynak kodu incelemesi:** Desteklenen güvenlik kuralları, dosya/satır kanıtı ve eksik analiz durumları.
+- **🔬 Beyan ve gözlem ayrımı:** İzin beyanı, koddan çıkarılan erişim ve desteklenen test gözlemleri ayrı gösterilir.
+- **💬 Dosyalarla AI sohbeti:** Hiyerarşik dosya ağacı, salt okunur mini IDE ve isteğe bağlı `@dosya` referansları.
+- **📊 Açıklanabilir risk puanı:** Puanı oluşturan bulgular, gerçek katkıları ve kanıt bağlantıları.
+- **🐳 İzole laboratuvar:** Riskli ve düzeltilmiş örnek MCP sunucuları; riskli sürümler yalnız Docker içinde çalışır.
+- **📝 Karşılaştırma ve rapor:** Önce/sonra kontrolü, Türkçe HTML ve özgün JSON/SARIF çıktıları.
+- **🌗 İki tema:** Dark, Beyaz ve sistem tercihi; telefon ve tablet için uyarlanan görünüm.
 
-## Yapay zekâ bağlantısı
+**Kapsamı bilerek yorumla:** Bir uyarı bulunmaması güvenlik garantisi değildir. AI yorumu, çalışma sırasında gözlenen bir ihlal sayılmaz. Kaynak kodu olmayan bağlantıda yalnız yayımlanan araç tanımları incelenir.
 
-Üstteki **Ayarlar** sayfasından Codex, Antigravity, Claude Code, Ollama veya API profilini seçin. CLI veya servisin bildirdiği listeden modeli seçin, **Modeli test et** düğmesiyle gerçekten test edin ve **Bu bağlantıyı kullan** ile kaydedin. CLI oturumunu ilgili uygulama yönetir. ToolLens şifre veya oturum çerezi istemez. API için yalnız ortam değişkeninin adı girilir.
+## 🚀 Hızlı kurulum
 
-Önerilen akış AI destekli incelemedir; yalnız bulguları listeleyen kaynak incelemesi ayrıca seçilebilir. Bir bağlantı başarısız olduğunda başka sağlayıcıya otomatik geçilmez. Deneme ve inceleme çağrıları seçilen hesabın kullanımına dahildir. Codex bağlantısı gerçek arayüz testinde doğrulanmıştır. Antigravity bazı testlerde araç çağrısı ürettiği için yanıtı reddedilmiştir; sonuç hataları ekranda gösterilir. Beş sağlayıcının tamamının oturum/model erişimi doğrulanmış değildir.
+Windows üzerinde **Python 3.12**, **Node.js 22 veya üzeri** ve Git gerekir. Docker, izole davranış testleri için; ilgili CLI veya Ollama ise seçilen AI bağlantısı için kullanılır.
 
-## Başka bilgisayara kurulum
+```powershell
+git clone https://github.com/MertAlii/ToolLens.git
+cd ToolLens
+.\setup.ps1
+.\start.ps1
+```
 
-Python 3.12 ve Node.js 22 veya üzeri kurulu olmalıdır. İsteğe bağlı: Docker, seçilen AI için ilgili CLI veya Ollama. Bu klasörde `./setup.ps1` ve ardından `./start.ps1` çalıştırın. Kurulum ağ erişimi gerektirir. Python ortamı `.venv`, arayüz `frontend/dist` altında oluşturulur; motorun wheel dosyası `vendor/wheels` içinde bulunur.
+Tarayıcıda **http://127.0.0.1:8001** adresini aç. Sonraki açılışlarda `start.ps1` veya `ToolLens-Baslat.cmd` yeterlidir. Sunucuyu durdurmak için terminalde `Ctrl+C` kullan.
 
-Bu çalışma alanında `start.ps1`, kendi `.venv` klasörü yoksa daha önce kurulmuş komşu `outputs/toollens/.venv` ortamını kullanır. Taşınan projede `setup.ps1` kendi bağımsız ortamını oluşturur.
+Kurulum bağımlılıkları indirir, `.venv` ortamını oluşturur ve arayüzü derler. Hazır motor paketi `vendor/wheels/` içinde bulunur. API anahtarı veya AI aboneliği temel kaynak incelemesi için zorunlu değildir.
 
-Varsayılan proje kökü uygulama klasörüdür. Harici projeler için başlatmadan önce PowerShell’de `$env:TOOL_LENS_PROJECT_ROOTS = 'C:\Projelerim'` ayarlayın. Birden fazla kökü Windows’ta noktalı virgülle ayırabilirsiniz. Tarayıcıdan yalnız bu kökler altında klasör seçilebilir.
+Harici bir çalışma klasörü eklemek için başlatmadan önce izin verilen proje kökünü belirt:
 
-## Veriler ve sınırlar
+```powershell
+$env:TOOL_LENS_PROJECT_ROOTS = 'C:\Projelerim'
+.\start.ps1
+```
 
-Projeler, kontrol kayıtları ve kullanıcı notları `data/` altında SQLite ile saklanır. Motorun özgün JSON ve SARIF raporları korunur; ToolLens JSON ve yazdırılabilir HTML ayrıca sunulur. Yama önerileri indirilir, kaynak dosyaya otomatik uygulanmaz.
+Birden fazla kökü Windows’ta `;` ile ayır. Uygulamadaki klasör seçici yalnız izin verilen kökler altında çalışır.
 
-Beyan, koddan çıkarılan erişim ve test gözlemi ayrı gösterilir. Gözlem yoksa “Ölçülmedi” yazılır. Eksik kontrol temiz sonuç sayılmaz. Artık görülmeyen uyarı, bütün güvenlik sorunlarının giderildiği anlamına gelmez. Python MCP/FastMCP önceliklidir; diğer diller ve dinamik testler motorun desteklediği kapsamla sınırlıdır.
+## 🧭 Nasıl kullanılır?
 
-## Geliştirme ve doğrulama
+1. **Ana sayfada örneği dene.** Riskli hesaplayıcıyı incele; düzeltilmiş sürümle farkı gör.
+2. **Proje oluştur.** GitHub bağlantısı, yerel klasör veya MCP sunucu adresini seç.
+3. **Kontrol yöntemini seç.** Kod/tanım incelemesi, AI yorumu veya desteklenen izole davranış testi.
+4. **Kanıtı incele.** Bulguyu aç; neden önemli olduğunu ve dayandığı kaydı gör.
+5. **Düzelt ve yeniden kontrol et.** Önerilen yama otomatik uygulanmaz. Değişikliği sen yap, sonuçları karşılaştır ve raporu aç.
 
-- Backend: `python -m pytest backend/tests -q`
-- Frontend: `cd frontend`, `npm test`, `npm run build`
-- Geliştirme arayüzü: `npm run dev` (5174; API 8001’e yönlendirilir)
-- Canlı uçtan uca kontrol: çalışan servis üzerinde `python verification/verify_live.py` (gerçek örnek projeleri ve geçmiş kayıtları ekler).
+### Kaynak kodu olmayan bir MCP ile dene
 
-Teknolojiler: React, TypeScript, Vite, Radix, TanStack Query, Lucide, Python, FastAPI, SQLite ve MCP Sentinel 1.4.0. Kaynak ve lisans bilgileri `THIRD_PARTY_NOTICES.md` içindedir.
+```text
+https://mcp.deepwiki.com/mcp
+```
 
-Mevcut akademik rapor dosyaları bu uygulama çalışmasında değiştirilmemiştir.
+**Proje oluştur → Sunucu adresim var → Bağlantıyı dene** yolunu izle. DeepWiki testinde üç araç alındı. Bu, canlı üçüncü taraf sunucunun belirtilen testteki yanıtıdır; araç sayısı ileride değişebilir. Bu adım araçları çalıştırmaz. Normal bir web sitesi adresi yerine gerçek `/mcp` veya eski `/sse` uç noktası gerekir.
 
-## Kaynak kodu olmayan MCP sunucuları
+Streamable HTTP, eski SSE ve otomatik taşıma seçimi desteklenir. Gerekiyorsa Bearer anahtarının bulunduğu **ortam değişkeninin adını** gir; anahtarı URL’ye yazma. Etkileşimli OAuth akışı ve `npx`/`uvx` ile uzak sunucu başlatma bu bağlantı yolunda bulunmaz.
 
-Çalışma alanında **Başka proje ekle → MCP sunucusuna bağlan** seçeneğini kullanın. Streamable HTTP MCP uç noktası girilir. Gerçek oturum açılarak araç listesi, açıklamalar ve girdi şemaları alınır; sınırlı sözleşme kontrolleri ve seçilirse AI yorumu üretilir. Sunucu araçları otomatik çağrılmaz. Kod güvenlik analizi, dosya/ağ erişim gözlemi ve kapsamlı davranış testi bu bağlantı türünde yapılmaz. Sonuçta bu kapsam açıkça gösterilir.
+## 🖼️ Ekran görüntüleri
 
-Bearer anahtarı gerekiyorsa ortam değişkeninin adını girin. URL içine gizli anahtar yazmayın. OAuth, eski SSE ve npx/uvx komutuyla sunucu çalıştırma bu bağlantı türünde desteklenmez.
+Görüntüler çalışan yerel uygulamadan alınmıştır. Örnek ve test kayıtları kendi kapsamlarıyla gösterilir.
 
-## Klasör ve proje yönetimi
+### Ana sayfada gerçek kontrol
 
-Kaynak kodu eklerken **Bilgisayarımdan klasör seç** Windows klasör penceresini açar. Konum elle yazılmaz. Seçilen çalışma kökü yeniden başlatmada korunur. Proje kartındaki çöp kutusu projeyi listeden kaldırır; kaynak dosyalar silinmez. Ayarlar sayfasındaki kaldırılan projeler bölümünden geri getirilebilir.
+Riskli hesaplayıcının kaynak incelemesi, kontrol aşamaları ve elde edilen bulgu aynı sayfada görünür.
 
-## Dosya ağacı, mini IDE ve @ dosya soruları
+<p align="center"><img src="docs/assets/example.png" alt="Gerçek hesaplayıcı örneğinin tamamlanan kontrolü" width="100%" /></p>
 
-Kaynak kodu bulunan bir projeyi seçtiğinizde sol tarafta **Proje dosyaları** ağacı görünür. Klasöre tıklayarak alt klasörleri açın. Dosyaya tıklayınca **Dosyalar ve AI** görünümünde satır numaralı, sözdizimi renkli, salt okunur önizleme açılır. Birden fazla dosya sekmesi açılabilir. Bu alan dosyaya yazmaz.
+### Bağlantıyı doğrula
 
-Alttaki soru kutusunda `@` yazın. Dosya adını yazarak listeyi daraltın; Enter veya tıklama ile ekleyin. Örnek: `@src/server.py ve @README.md dosyaları birbiriyle uyumlu mu?` Boşluklu adlar liste tarafından `@{docs/proje notu.md}` biçiminde eklenir. Ağaçtaki kutucuklar ve **Soruma ekle** düğmesi de aynı bağlama dosya ekler.
+Sunucu adresi gerçek bir MCP oturumuyla denenir. Araç sayısı ve kabul edilen protokol sürümü başarılı testte gösterilir.
 
-**Soruyu gönder** veya Enter, seçilen modelle gerçek bir dosya sorusu başlatır. @ isteğe bağlıdır; dosya eklenmeden genel soru sorulabilir. Bu durumda proje dosyası okunmaz. Shift+Enter yeni satır ekler. Yalnız seçilen dosyaların içerikleri gönderilir; komut çalıştırılmaz. En fazla 6 dosya ve toplam 30 KB kaynak bağlamı kabul edilir. Büyük seçimler sessizce kesilmez; kullanıcıya kapsamı küçültmesi söylenir. Önizleme dosya başına 512 KB ile sınırlıdır. Gizli dosyalar, kimlik bilgisi dosyaları, anahtarlar, bağımlılık klasörleri ve bağlantılı dosyalar gösterilmez.
+<p align="center"><img src="docs/assets/connection.png" alt="DeepWiki ile başarılı MCP bağlantı testinin ayrıntısı" width="75%" /></p>
 
-Yanıtlar proje bazında saklanır. Dosya/satır referansı, soruya ait kaynak kopyasını açar. Dosya sonradan değiştiyse bu durum belirtilir; **Güncel dosyayı aç** ile çalışma sürümüne dönülür. Aynı dosyaların aynı sürümleri ve aynı modelle yapılan son iki tamamlanmış konuşma, sınır dahilinde takip sorusuna eklenir. Farklı proje/model veya değişen kaynak sürümü aynı konuşma bağlamına katılmaz. İşlem sürerken geçen süre ve iptal düğmesi gösterilir.
+### Kaynak kodu olmayan MCP sonucu
 
-Kaynak kodu paylaşılmayan HTTP MCP bağlantılarında dosya ağacı oluşturulmaz; bu bağlantılar araç tanımı inceleme akışını kullanır.
+Araç tanımı, kaynak kodu incelemesi ve çalışma davranışı arasındaki ayrım ekranda açıkça belirtilir. Boş tanım bulgusu genel bir 0/100 güvenlik puanı olarak sunulmaz.
 
+<p align="center"><img src="docs/assets/remote-mcp.png" alt="DeepWiki araç tanımı incelemesi ve kapsam açıklaması" width="100%" /></p>
 
-## GitHub’dan kaynak kodu getir
+### Risk puanının kanıt dökümü
 
-**Proje oluştur → GitHub’da buldum** seçeneğini kullanın. Herkese açık deponun ana adresini yazın: `https://github.com/sahip/depo`. Git kurulumu gerekmez. Varsayılan dalın belirli commit sürümü GitHub kaynak arşivinden alınır; kaynak URL’si ve sürüm kimliği proje dosyalarında görünür.
+Kayıtlı Docker deneyinde **92 = 90 + 2**: en önemli bulgunun temel ağırlığına diğer bulgunun sınırlı katkısı eklenir. Bu değer saldırı olasılığı değildir.
 
-Birden fazla MCP projesi algılanırsa ilgili klasörü listeden seçin. İsterseniz **İndirme bitince kontrolü başlat** kutusunu işaretleyin. Doğrulanmış AI bağlantısı varsa AI destekli inceleme, yoksa ekranda belirtilen kaynak kod incelemesi çalışır. İşlem durumu ve iptal düğmesi gösterilir. Pencere kapansa da indirme yerel serviste devam eder; GitHub ekleme ekranına yeniden girerek durumu görebilirsiniz.
+<p align="center"><img src="docs/assets/risk-score.png" alt="Beyaz temada risk puanının bulgu bazında katkıları" width="78%" /></p>
 
-İçe aktarma hiçbir kurulum betiği, paket kurulumu veya MCP aracı çalıştırmaz. Özel depolar, alt modüller ve Git LFS nesneleri alınmaz. Sıkıştırılmış kaynak 25 MB, açılmış içerik 100 MB ve 6000 arşiv kaydı ile sınırlıdır. Güvensiz yollar, sembolik bağlantılar ve Windows’ta çakışan dosya adları reddedilir. Hatalı/iptal edilmiş indirmelerde yalnız uygulamanın o iş için oluşturduğu geçici proje klasörü temizlenir. GitHub erişim sınırı dolarsa hata gösterilir.
+## 🤖 AI bağlantıları
 
-## Sohbet içinde model seçimi
+<p align="center">
+  <img src="frontend/public/providers/codex.svg" width="30" alt="Codex" /> &nbsp;
+  <img src="frontend/public/providers/antigravity.svg" width="30" alt="Antigravity" /> &nbsp;
+  <img src="frontend/public/providers/claude.svg" width="30" alt="Claude" /> &nbsp;
+  <img src="frontend/public/providers/cursor.svg" width="30" alt="Cursor" /> &nbsp;
+  <img src="frontend/public/providers/ollama.svg" width="30" alt="Ollama" /> &nbsp;
+  <img src="frontend/public/providers/openai.svg" width="30" alt="OpenAI" /> &nbsp;
+  <img src="frontend/public/providers/gemini-color.svg" width="30" alt="Gemini" /> &nbsp;
+  <img src="frontend/public/providers/openrouter.svg" width="30" alt="OpenRouter" /> &nbsp;
+  <img src="frontend/public/providers/groq.svg" width="30" alt="Groq" />
+</p>
 
-Dosya sorusu kutusunun altındaki model düğmesi, sağlayıcı ve model listesini açar. Liste aramayla filtrelenebilir. Kurulu olmayan CLI bağlantıları açıkça belirtilir. Yeni model kısa bir gerçek yanıt testinden sonra kaydedilir; test iptal edilebilir. Önceki yanıtlar üretildikleri modelin adıyla kalır. Model değişimi, eski yanıtların model bilgisini değiştirmez.
+| Bağlantı | Kullanım |
+|---|---|
+| Codex, Antigravity, Claude Code, Cursor CLI | Kurulu komut satırı aracı ve uygun mevcut oturum |
+| Ollama | Yerel serviste kurulu model |
+| OpenAI, Gemini, Claude, OpenRouter, Groq | Hazır API profili ve ortam değişkenindeki anahtar |
+| Diğer | Kullanıcı tarafından belirtilen uyumlu API adresi ve profil |
 
-Ana sayfa ayrıca AI seçimini, Docker durumunu, klasör erişimi seçeneklerini ve sık sorulan soruları bir araya getirir. Docker kurulum düğmesi resmî kurulum rehberini açar; işletim sistemi kurulumunu kendiliğinden yapmaz. Ana sayfa, projeler, tam sayfa proje oluşturma, çalışma ve ayarlar aynı Sistem/Dark/Beyaz tema seçimini kullanır. Maskot ve Aurora kullanılmaz. İşlem bildirimleri kapatılabilir; hata kayıtları kullanıcı kapatana kadar görünür.
+**Ayarlar → bağlantı ve model seç → Modeli test et → Bu bağlantıyı kullan** yolunu izle. Kurulumun algılanması, modelin yanıt verdiği anlamına gelmez. Bağlantı gerçek yanıtla doğrulanır. Codex ve Antigravity ile başarılı inceleme kayıtları vardır; bütün sağlayıcıların canlı hesap erişimi doğrulanmış değildir. Cursor yalnız gerekli CLI kısıtları doğrulanabilirse kullanılabilir.
 
+ToolLens CLI parolası veya abonelik çerezi toplamaz. API anahtarı ayar dosyasına yazılmaz; ortam değişkeni kullanılır. Bağlantı hata verirse başka ücretli sağlayıcıya sessiz geçiş yapılmaz. Kullanım, seçilen sağlayıcının hesabına ve sınırlarına tabidir.
 
-## Güncel doğrulama ve sınırlar
+### Dosyalarla birlikte çalış
 
-Üretim derlemesi, 121 backend testi ve 29 frontend testi kontrol edildi. Dosyasız soru Enter ile gerçek Codex yanıtı aldı. Yeni doğrulanmış yanıtlar arayüzde kademeli gösterilir; bu etki sağlayıcının gerçek token akışı olduğu iddiasını taşımaz. Azaltılmış hareket tercihi ve yanıtın tamamını göster seçeneği desteklenir.
+<p align="center"><img src="docs/assets/workspace.png" alt="Dosya ağacı, salt okunur kod önizlemesi ve AI çalışma alanı" width="100%" /></p>
 
-Docker, PATH yanında kullanıcıya özel DockerDesktop konumu ve Windows kurulum kaydından algılanır. Kurulum ile çalışan motor ayrı durumdur. TypeScript çözümleyicinin okuyamadığı ifadeler olduğunda eksik analiz raporu korunur; özgün motor raporu varmış veya sıfır bulgu güvenliymiş gibi gösterilmez. API profilleri gerçek anahtar olmadan hazır sayılmaz. Cursor yalnız CLI güvenlik seçenekleri doğrulandığında etkinleşir; bu bilgisayarda canlı Cursor oturumu doğrulanmamıştır.
+Dosya ağacından bir dosya seçerek salt okunur önizlemeyi aç. Soruna `@server.py` veya liste üzerinden `@{docs/proje notu.md}` ekleyebilirsin. `@` kullanmadan genel soru da sorulabilir. **Enter** gönderir, **Shift+Enter** yeni satır ekler.
 
+En fazla altı dosya ve toplam 30 KB kaynak bağlamı gönderilir. Seçilmeyen dosyalar genel soruya kendiliğinden eklenmez. Kaynak dosyaları sohbet veya yama önerisiyle değiştirilmez. Yanıt arayüzde kademeli gösterilir; bu, her sağlayıcıda gerçek token akışı olduğu iddiasını taşımaz.
 
-## HTTP MCP ve gerçek bağlantı testi
+## 🏗️ Sistem mimarisi
 
-Güncel bağlantı sihirbazı adresi, taşıma yöntemini ve varsa anahtar ortam değişkenini doğrular. Başarılı testten sonra sunucu adı, araç sayısı ve gerçekten uzlaşılan protokol sürümü gösterilir. Bilgi değişince test geçersizleşir; test kaydı beş dakika sonra sona erer. Bağlantı hataları için ayrı Türkçe açıklama ve sonraki adım sunulur.
+```mermaid
+flowchart TD
+    User["Kullanıcı"] --> UI["React ve TypeScript arayüzü"]
+    UI --> API["Yerel FastAPI servisi"]
+    API --> Store[("SQLite kayıtları")]
+    API --> Worker["Analiz iş yürütücüsü"]
+    Worker --> Static["Statik kod incelemesi"]
+    Worker --> Remote["HTTP MCP araç tanımları"]
+    Worker --> AI["Seçili CLI Ollama veya API"]
+    Worker --> Lab["Desteklenen Docker testleri"]
+    Static --> Evidence["Bulgu ve kanıt kayıtları"]
+    Remote --> Evidence
+    AI --> Evidence
+    Lab --> Evidence
+    Evidence --> Reports["Arayüz ve raporlar"]
+    Evidence --> Store
+```
 
-Kaynak kodu olmayan sunucularda sonuç **araç tanımlarıyla sınırlıdır**. Boş bulgu listesi genel bir 0/100 güvenlik puanı olarak sunulmaz. Sunucunun beyanı, kod incelemesi ve test gözlemi ayrı tutulur. Salt okunur etiketi, doğrulanmış davranış değildir. Ayrıntılar: [kara kutu araştırması](docs/blackbox-mcp-research.md).
+## 🧪 Testler ve doğrulama
 
-Risk puanı ayrıntısında her bulgunun önem ağırlığı, puana gerçek katkısı ve kaynak referansı gösterilir. Kanıtı aç düğmesi ilgili bulguyu açar. Türkçe HTML raporunda aynı hesap ve kanıtlar kullanılır; özgün teknik açıklamalar ayrı tutulur. Telefon ve tablette dosyalar/geçmiş bölümü açılır panel olarak kullanılabilir.
+Son doğrulama: **29 Ekim 2026**. **195 backend testi**, **33 frontend testi** geçti; üretim arayüz derlemesi tamamlandı. Bu sayılar otomatik kontrol sayısıdır, bütün MCP sunucularındaki tespit başarısı oranı değildir.
 
-Bu sürümde 195 backend ve 33 frontend testi geçti; üretim derlemesi tamamlandı. Gerçek DeepWiki bağlantısı üç araç ve 2025-11-25 protokolüyle doğrulandı. Yeni 2026 protokolüne özel uyumluluk iddiası yoktur. Bu geliştirmede uzak sunucu araçları çağrılmadı; gerçek davranış deneyi yapılmış gibi sunulmaz.
+```powershell
+.\.venv\Scripts\python.exe -m pytest backend/tests -q
+npm test --prefix frontend
+npm run build --prefix frontend
+```
 
-Proje oluştururken Otomatik / Streamable HTTP / SSE seçilebilir. Normal web sayfası yerine sunucunun `/mcp` veya eski `/sse` adresini kullanın. Çalışma ekranındaki **Bağlantıyı dene**, gerçek initialize ve tools/list oturumu açar; sunucu adı, taşıma türü, araç sayısı ve test zamanı kaydedilir. Başarılı test yeşil noktayla gösterilir; bu gösterge son testin kaydıdır. Uzak sunucu araçları tarama sırasında kendiliğinden çağrılmaz. Gereken Bearer token yalnız belirtilen ortam değişkeninden alınır; kimlik doğrulama ve bağlantı hataları ayrı açıklanır. Uzak bağlantıda HTTPS gerekir; HTTP yalnız localhost içindir. Etkileşimli OAuth akışı ilk sürümde yoktur.
+Gerçek örnek sonuçları:
 
-## Risk skoru ve MCP aracı
+| Örnek | Doğrulanan sonuç |
+|---|---|
+| DeepWiki HTTP MCP | Üç araç; bağlantıda 2025-11-25 protokolü; kaynak/davranış ölçülmedi |
+| Riskli hesaplayıcı, statik | Bir yüksek önem bulgusu; öncelik 65 |
+| Riskli hesaplayıcı, Docker | İki bulgu; öncelik 92; izole testte kontrol dosyası değişikliği |
+| Düzeltilmiş hesaplayıcı | Kayıtlı statik ve dinamik kontrollerde puan ekleyen bulgu yok |
 
-Sonuç ekranı, ana sayfadaki gerçek örnek sonucu ve HTML raporu risk öncelik puanını gösterir. API: `GET /api/scans/{id}/risk-score`. Politika **toollens-risk-v1**: Kritik90, Yüksek65, Orta35, Düşük10, Bilgi0. En yüksek ağırlığa diğer puan ekleyen benzersiz bulgu başına2, en fazla10 eklenir; sonuç100 ile sınırlıdır. Bu değer bir olasılık yüzdesi değildir. Eksik analiz, eksik bulgu listesi ve başarısız davranış testinde sayı verilmez. HTTP puanı yalnız araç tanımı kapsamındadır. İnceleme notları özgün motor puanını değiştirmez.
+Docker deneyleri 28 Ekim, son otomatik doğrulama ve arayüz görüntüleri 29 Ekim kayıtlarıdır. Sonradan alınan ekran görüntüsü deneyin tekrar çalıştırıldığı anlamına gelmez. Telefon ve tablet görünümünde yatay taşma denetlendi. Yeni 2026 MCP protokolüne özel uyumluluk doğrulanmış değildir.
 
-Bağımsız gerçek MCP aracı `python -m backend.risk_mcp` ile başlatılır. Adres **http://127.0.0.1:8012/mcp**. İki salt-okunur araç sunar:
+### Risk puanını MCP aracı olarak kullan
 
-- `list_recent_controls(limit)`: son kontrol kimliklerini listeler.
-- `risk_score(scan_id)`: kayıtlı kontrolün puanını, formülünü, kanıt türlerini ve sınırlamalarını döndürür.
+```powershell
+.\start-risk-mcp.ps1
+```
 
-Araç yalnız ToolLens SQLite kaydını okur; hedef kaynaklarını veya gizli anahtarları döndürmez. Servis yalnız127.0.0.1 üzerinde dinler. Testlerde araç gerçek MCP oturumuyla çağrıldı ve riskli statik kontrol için65 döndü.
+Yerel adres: **http://127.0.0.1:8012/mcp**. Salt okunur `list_recent_controls` kayıtları listeler; `risk_score(scan_id)` seçilen kontrolün gerekçeli puanını döndürür. Eksik analizde puan üretilmez.
 
-## Docker denetimi
+## 📂 Proje yapısı
 
-Kurulum, çalışan motor ve laboratuvar imajı ayrı durumlardır. Docker Desktop kullanıcı klasörü, Windows kurulum kaydı ve credential-helper PATH'i desteklenir. Riskli demo sunucuları ağ kapalı, salt-okunur kök dosya sistemi, kısıtlı kaynaklar ve yetkisiz kullanıcıyla yalnızDocker'da çalışır. Gerçek testte riskli hesaplayıcı statik65, doğrulanmış izole davranışla92; düzeltilmiş hesaplayıcı statik ve dinamik0 verdi. Dört demo gerçek araç çağrılarıyla denendi ve test konteynerleri temizlendi. Teknik kanıtlar `verification/*v7*` içindedir.
+```text
+ToolLens/
+├── backend/                 # FastAPI, analiz, sağlayıcılar ve testler
+├── frontend/                # React arayüzü ve frontend testleri
+├── demos/                   # Riskli ve düzeltilmiş gerçek MCP örnekleri
+├── evaluation/              # Değerlendirme örnekleri ve üreticileri
+├── docs/                    # Araştırma ve ekran görüntüleri
+├── vendor/                  # Motor paketi ve özgün lisanslar
+├── setup.ps1                # Bağımlılık kurulumu ve arayüz derlemesi
+├── start.ps1                # Yerel uygulamayı başlatır
+└── start-risk-mcp.ps1        # Salt okunur risk MCP servisi
+```
+
+Proje, kontrol ve inceleme kayıtları yerel `data/` klasöründe tutulur; Git’e eklenmez. Projeyi listeden kaldırmak kaynak klasörü silmez. Kaldırılan projeler ayarlardan geri getirilebilir.
+
+## 📌 Kapsam ve açık kaynak bileşenler
+
+ToolLens tek kullanıcı ve aynı anda tek kontrol için hazırlanmıştır. Python MCP/FastMCP önceliklidir. TypeScript ve dinamik analiz motorun desteklediği kapsamla sınırlıdır. Yerel kurulum internet üzerinde herkese açık bir tarama hizmeti olarak tasarlanmamıştır.
+
+Temel analiz bileşenlerinde **MCP Sentinel v1.4.0** kullanılır. ToolLens’in uygulama, kanıt sunumu, yetki karşılaştırması, sağlayıcı ve raporlama katmanları bu motorla bütünleşir. Kaynak motor sıfırdan geliştirilmiş gibi sunulmaz. Özgün MIT lisansı `vendor/MCP-Sentinel-LICENSE` içinde korunur; diğer bileşenler ve marka simgeleri için [kaynak ve lisans bildirimlerine](THIRD_PARTY_NOTICES.md) bak.
+
+Kara kutu incelemesinin yöntemleri ve sınırları: [Kaynak kodu olmayan MCP sunucularını inceleme](docs/blackbox-mcp-research.md).
