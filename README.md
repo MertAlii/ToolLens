@@ -103,7 +103,7 @@ Riskli hesaplayıcının kaynak incelemesi, kontrol aşamaları ve elde edilen b
 
 Sunucu adresi gerçek bir MCP oturumuyla denenir. Araç sayısı ve kabul edilen protokol sürümü başarılı testte gösterilir.
 
-<p align="center"><img src="docs/assets/connection.png" alt="DeepWiki ile başarılı MCP bağlantı testinin ayrıntısı" width="75%" /></p>
+<p align="center"><img src="docs/assets/connection-verified.png" alt="DeepWiki bağlantı testi: sunucu adı, üç araç, bağlantı türü ve kabul edilen MCP sürümü" width="100%" /></p>
 
 ### Kaynak kodu olmayan MCP sonucu
 
