@@ -17,7 +17,7 @@ class CorpusTests(unittest.TestCase):
         self.assertEqual(len({c['family'] for c in cases}), 6)
         self.assertEqual(sum(c['split'] == 'held_out' for c in cases), 24)
         for case in cases:
-            data = (ROOT / case['path'] / 'server.py').read_bytes()
+            data = (ROOT / case['path'] / 'server.py').read_bytes().replace(b'\r\n', b'\n')
             self.assertEqual(hashlib.sha256(data).hexdigest(), case['source_sha256'])
             ast.parse(data.decode())
 

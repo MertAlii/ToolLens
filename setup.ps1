@@ -2,9 +2,11 @@ param([string]$PythonExecutable = 'python')
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath $PSScriptRoot
 $appPython = Join-Path $PSScriptRoot '.venv\Scripts\python.exe'
+& $PythonExecutable -c "import sys; assert sys.version_info[:2] == (3, 12), 'Python 3.12 gerekir; bulunan: ' + sys.version.split()[0]"
+if ($LASTEXITCODE -ne 0) { throw 'Python sürüm kontrolü başarısız. PythonExecutable ile Python 3.12 yolunu belirtin.' }
 if (-not (Test-Path -LiteralPath $appPython)) {
     & $PythonExecutable -m venv .venv
-    if ($LASTEXITCODE -ne 0) { throw 'Python 3.12 ile yerel ortam oluşturulamadı.' }
+    if ($LASTEXITCODE -ne 0) { throw 'Seçilen Python ile sanal ortam oluşturulamadı. Yukarıdaki hata ayrıntısını inceleyin.' }
 }
 & $appPython -m pip install -r backend/requirements.txt
 if ($LASTEXITCODE -ne 0) { throw 'Backend bağımlılıkları kurulamadı.' }

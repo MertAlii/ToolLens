@@ -18,14 +18,14 @@ APP = ROOT.parent
 
 def verify_manifest(name: str) -> dict:
     path = ROOT / (name + '.json')
-    raw = path.read_bytes()
+    raw = path.read_bytes().replace(b'\r\n', b'\n')
     if hashlib.sha256(raw).hexdigest() != path.with_suffix('.sha256').read_text().strip():
         raise ValueError('Frozen manifest digest mismatch: ' + name)
     return json.loads(raw)
 
 
 def source_digest(folder: Path) -> str:
-    return hashlib.sha256((folder / 'server.py').read_bytes()).hexdigest()
+    return hashlib.sha256((folder / 'server.py').read_bytes().replace(b'\r\n', b'\n')).hexdigest()
 
 
 def run_case(case: dict, destination: Path, timeout: int) -> dict:

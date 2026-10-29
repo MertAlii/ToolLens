@@ -71,6 +71,16 @@ def inventory(files):
         except SyntaxError as exc:
             warnings.append({'code':'parse_error','message':f'{path}:{exc.lineno} çözümlenemedi.'});continue
         lines=content.splitlines()
+        context_names={'Context'}
+        aliases={}
+        for imported in ast.walk(tree):
+            if isinstance(imported,ast.ImportFrom) and imported.module:
+                for alias in imported.names:
+                    aliases[alias.asname or alias.name]=imported.module+'.'+alias.name
+                    if alias.name=='Context' and imported.module.startswith(('mcp','fastmcp')):
+                        context_names.add(alias.asname or alias.name)
+            elif isinstance(imported,ast.Import):
+                for alias in imported.names:aliases[alias.asname or alias.name]=alias.name
         for node in ast.walk(tree):
             if not isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef)):continue
             decorators=[d for d in node.decorator_list if name(d.func if isinstance(d,ast.Call) else d).split('.')[-1] in ('tool','register_tool')]
@@ -81,18 +91,26 @@ def inventory(files):
                     for kw in dec.keywords:
                         if kw.arg=='name' and literal(kw.value):tool_name=literal(kw.value)
                         if kw.arg=='description' and literal(kw.value):description=literal(kw.value)
-            args=node.args.args
-            required=[a.arg for a in args[:len(args)-len(node.args.defaults)]]
-            schema={'type':'object','properties':{a.arg:{'type':_type(_annotation(a.annotation))} for a in args},'required':required}
+            positional=node.args.posonlyargs+node.args.args
+            args=positional+node.args.kwonlyargs
+            required_names={a.arg for a in positional[:len(positional)-len(node.args.defaults)]}
+            required_names.update(a.arg for a,default in zip(node.args.kwonlyargs,node.args.kw_defaults) if default is None)
+            args=[a for a in args if a.arg not in ('self','cls') and _annotation(a.annotation).strip("'\"").split('.')[-1] not in context_names]
+            schema={'type':'object','properties':{a.arg:{'type':_type(_annotation(a.annotation))} for a in args},'required':[a.arg for a in args if a.arg in required_names]}
             accesses={k:[] for k in CAPABILITIES}
             for call in ast.walk(node):
                 if not isinstance(call,ast.Call):continue
                 call_name=name(call.func);cap=None;target=None
+                prefix,*rest=call_name.split('.')
+                call_name='.'.join([aliases.get(prefix,prefix),*rest])
                 if call_name=='open' or call_name.endswith(('.read_text','.read_bytes','.write_text','.write_bytes','.open')):
                     mode=next((literal(x.value) for x in call.keywords if x.arg=='mode'),None)
                     if mode is None and len(call.args)>1:mode=literal(call.args[1])
                     cap='filesystem.write' if call_name.endswith(('.write_text','.write_bytes')) or mode and any(x in mode for x in 'wax+') else 'filesystem.read'
                     target=literal(call.args[0]) if call_name=='open' and call.args else literal(call.func.value) if isinstance(call.func,ast.Attribute) else None
+                elif call_name in ('os.remove','os.unlink','os.rmdir','shutil.rmtree') or call_name.endswith(('.unlink','.rmdir')):
+                    cap='filesystem.write'
+                    target=literal(call.args[0]) if call_name in ('os.remove','os.unlink','os.rmdir','shutil.rmtree') and call.args else literal(call.func.value) if isinstance(call.func,ast.Attribute) else None
                 elif call_name.startswith(('requests.','httpx.','urllib.request.','aiohttp.')) and call_name.split('.')[-1] in ('get','post','put','delete','request','urlopen','urlretrieve'):
                     cap='network';url=literal(call.args[0]) if call.args else None
                     if url:target=urlparse(url).netloc or url

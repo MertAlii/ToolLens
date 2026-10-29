@@ -15,7 +15,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.12" />
   <img src="https://img.shields.io/badge/React-TypeScript-149ECA?style=for-the-badge&logo=react&logoColor=white" alt="React ve TypeScript" />
-  <img src="https://img.shields.io/badge/Backend-195_test-059669?style=for-the-badge" alt="195 backend testi geçti" />
+  <img src="https://img.shields.io/badge/Backend-198_test-059669?style=for-the-badge" alt="198 backend testi geçti" />
   <img src="https://img.shields.io/badge/Frontend-33_test-059669?style=for-the-badge" alt="33 frontend testi geçti" />
 </p>
 
@@ -172,7 +172,7 @@ flowchart TD
 
 ## 🧪 Testler ve doğrulama
 
-Son doğrulama: **29 Ekim 2026**. **195 backend testi**, **33 frontend testi** geçti; üretim arayüz derlemesi tamamlandı. Bu sayılar otomatik kontrol sayısıdır, bütün MCP sunucularındaki tespit başarısı oranı değildir.
+Son doğrulama: **29 Ekim 2026**. **198 backend testi**, **33 frontend testi** geçti; üretim arayüz derlemesi tamamlandı. Bu sayılar otomatik kontrol sayısıdır, bütün MCP sunucularındaki tespit başarısı oranı değildir.
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest backend/tests -q
@@ -223,3 +223,5 @@ ToolLens tek kullanıcı ve aynı anda tek kontrol için hazırlanmıştır. Pyt
 Temel analiz bileşenlerinde **MCP Sentinel v1.4.0** kullanılır. ToolLens’in uygulama, kanıt sunumu, yetki karşılaştırması, sağlayıcı ve raporlama katmanları bu motorla bütünleşir. Kaynak motor sıfırdan geliştirilmiş gibi sunulmaz. Özgün MIT lisansı `vendor/MCP-Sentinel-LICENSE` içinde korunur; diğer bileşenler ve marka simgeleri için [kaynak ve lisans bildirimlerine](THIRD_PARTY_NOTICES.md) bak.
 
 Kara kutu incelemesinin yöntemleri ve sınırları: [Kaynak kodu olmayan MCP sunucularını inceleme](docs/blackbox-mcp-research.md).
+
+Son bağımsız denetim: [Antigravity bulgularının değerlendirmesi ve uygulanan düzeltmeler](docs/antigravity-audit-review.md). Backend ve corpus kontrolleri birlikte 203 testtir (198 + 5); frontend 33 test kaydı ayrıdır.

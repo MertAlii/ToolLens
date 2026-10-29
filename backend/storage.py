@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import sqlite3
 import threading
+from contextlib import contextmanager
 from pathlib import Path
 from datetime import datetime, timezone
 from uuid import uuid4
@@ -22,10 +23,15 @@ class Store:
             db.execute('CREATE TABLE IF NOT EXISTS records (kind TEXT, id TEXT, payload TEXT NOT NULL, PRIMARY KEY(kind,id))')
             db.execute('CREATE TABLE IF NOT EXISTS events (seq INTEGER PRIMARY KEY AUTOINCREMENT, scan_id TEXT, payload TEXT NOT NULL)')
 
+    @contextmanager
     def connect(self):
         db = sqlite3.connect(self.path, timeout=20)
-        db.execute('PRAGMA journal_mode=WAL')
-        return db
+        try:
+            with db:
+                db.execute('PRAGMA journal_mode=WAL')
+                yield db
+        finally:
+            db.close()
 
     def put(self, kind, value):
         with self.lock, self.connect() as db:
